@@ -5,15 +5,23 @@ import Menu from "./features/menu/Menu";
 import Cart from "./features/cart/Cart";
 import CreateOrder from "./features/order/CreateOrder";
 import Order from "./features/order/Order";
+import AppLayout from "./ui/AppLayout";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
-  { path: "/menu", element: <Menu /> },
-  { path: "/cart", element: <Cart /> },
-  { path: "/order/new", element: <CreateOrder /> },
-  { path: "/order/:orderID", element: <Order /> },
-  //{path: "*", element: <PageNotFound/>}, - react-router version 6.4
-  //offers a better way to handle undefined paths, so we wont use this one
+  {
+    /*Having no path for the main route - this is considered only a layout
+    route, which fits just fine for our Applayout */
+    element: <AppLayout />,
+    /*We pass our nested routes as children and display the contents as an 
+    Outlet within the parent route*/
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/menu", element: <Menu /> },
+      { path: "/cart", element: <Cart /> },
+      { path: "/order/new", element: <CreateOrder /> },
+      { path: "/order/:orderID", element: <Order /> },
+    ],
+  },
 ]);
 
 function App() {
