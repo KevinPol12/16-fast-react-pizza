@@ -1,7 +1,7 @@
 //https://reactrouter.com/en/main/routers/create-browser-router - routing + fetching capabilities
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./ui/Home";
-import Menu from "./features/menu/Menu";
+import Menu, { loader as MenuLoader } from "./features/menu/Menu";
 import Cart from "./features/cart/Cart";
 import CreateOrder from "./features/order/CreateOrder";
 import Order from "./features/order/Order";
@@ -9,14 +9,14 @@ import AppLayout from "./ui/AppLayout";
 
 const router = createBrowserRouter([
   {
-    /*Having no path for the main route - this is considered only a layout
-    route, which fits just fine for our Applayout */
     element: <AppLayout />,
-    /*We pass our nested routes as children and display the contents as an 
-    Outlet within the parent route*/
     children: [
       { path: "/", element: <Home /> },
-      { path: "/menu", element: <Menu /> },
+      //Step 2/3 - To use the react-router-dom Loader
+      /*We import the loader along with the Component, and rename the loader
+      to avoid multiple loaders with the same name - then we pass it to that 
+      route as the loader */
+      { path: "/menu", element: <Menu />, loader: MenuLoader },
       { path: "/cart", element: <Cart /> },
       { path: "/order/new", element: <CreateOrder /> },
       { path: "/order/:orderID", element: <Order /> },
