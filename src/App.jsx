@@ -1,10 +1,10 @@
 //https://reactrouter.com/en/main/routers/create-browser-router - routing + fetching capabilities
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Menu, { loader as MenuLoader } from "./features/menu/Menu";
+import Menu, { loader as menuLoader } from "./features/menu/Menu";
+import Order, { loader as orderLoader } from "./features/order/Order";
 import Home from "./ui/Home";
 import Cart from "./features/cart/Cart";
 import CreateOrder from "./features/order/CreateOrder";
-import Order from "./features/order/Order";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
 
@@ -21,12 +21,17 @@ const router = createBrowserRouter([
       {
         path: "/menu",
         element: <Menu />,
-        loader: MenuLoader,
+        loader: menuLoader,
         errorElement: <Error />,
       },
       { path: "/cart", element: <Cart /> },
       { path: "/order/new", element: <CreateOrder /> },
-      { path: "/order/:orderID", element: <Order /> },
+      {
+        path: "/order/:orderID",
+        element: <Order />,
+        loader: orderLoader,
+        errorElement: <Error />,
+      },
     ],
   },
 ]);
