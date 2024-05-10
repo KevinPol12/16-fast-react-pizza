@@ -2,9 +2,11 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Menu, { loader as menuLoader } from "./features/menu/Menu";
 import Order, { loader as orderLoader } from "./features/order/Order";
+import CreateOrder, {
+  action as createOrderAction,
+} from "./features/order/CreateOrder";
 import Home from "./ui/Home";
 import Cart from "./features/cart/Cart";
-import CreateOrder from "./features/order/CreateOrder";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
 
@@ -14,10 +16,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { path: "/", element: <Home /> },
-      //Step 2/3 - To use the react-router-dom Loader
-      /*We import the loader along with the Component, and rename the loader
-      to avoid multiple loaders with the same name - then we pass it to that 
-      route as the loader */
+
       {
         path: "/menu",
         element: <Menu />,
@@ -25,7 +24,13 @@ const router = createBrowserRouter([
         errorElement: <Error />,
       },
       { path: "/cart", element: <Cart /> },
-      { path: "/order/new", element: <CreateOrder /> },
+      //Step 3/3: To use React-router-dom actions
+      /*We import the action and pass it as the action of the path */
+      {
+        path: "/order/new",
+        element: <CreateOrder />,
+        action: createOrderAction,
+      },
       {
         path: "/order/:orderID",
         element: <Order />,
