@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/*this method should not be used because this lets down the whole purpose of using tailwind, which is to avoid creating classes. 
+Therefore, this should be used only in some exceptions when the Tailwind lasses have become too numerous. 
+The real solution here would be to create a new REACT component with all this code. */
+@layer components {
+  .input {
+    @apply w-full rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3;
+  }
+}
+
 /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
 .loader {
   width: 45px;
@@ -14,7 +23,8 @@
   background-size: 20% 50%;
   animation: loading 1s infinite linear;
 }
-*/ @keyframes loading {
+
+@keyframes loading {
   20% {
     background-position:
       0% 0%,
