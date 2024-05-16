@@ -29,6 +29,7 @@ const cartSlice = createSlice({
     },
     increaseItemQuantity(state, action) {
       const item = state.cartItems.find((item) => item.id === action.payload);
+      if (item.quantity >= 4) return;
       item.quantity++;
       item.totalPrice = item.quantity * item.unitPrice;
     },
@@ -36,6 +37,8 @@ const cartSlice = createSlice({
       const item = state.cartItems.find((item) => item.id === action.payload);
       item.quantity--;
       item.totalPrice = item.quantity * item.unitPrice;
+      /*Within the action or reducer, we can call another defined action or reducer in the slice for reusing the code with the slice.caseReducers.action(state,action)*/
+      if (item.quantity <= 0) cartSlice.caseReducers.deleteItem(state, action);
     },
     clearCart(state) {
       state.cartItems = [];

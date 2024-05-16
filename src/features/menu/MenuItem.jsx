@@ -3,6 +3,7 @@ import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
 import { addItem, getCurrentQuantityById } from "../cart/cartSlice";
 import DeleteItem from "../cart/DeleteItem";
+import UpdateItemQuantity from "../cart/UpdateItemQuantity";
 
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
@@ -39,7 +40,13 @@ function MenuItem({ pizza }) {
           ) : (
             <p className="text-sm uppercase text-stone-500">Sold out</p>
           )}
-          {isInCart && <DeleteItem id={id} />}
+          {isInCart && (
+            <div className="flex gap-3">
+              <UpdateItemQuantity id={id} currentQuantity={currentQuantity} />
+
+              <DeleteItem id={id} />
+            </div>
+          )}
           {!soldOut && !isInCart && (
             <Button type="small" onClick={() => handleAddToCart()}>
               Add to cart
