@@ -60,6 +60,12 @@ export const getTotalCartQuantity = (store) =>
 export const getTotalCartPrice = (store) =>
   store.cart.cartItems.reduce((acc, cur) => acc + cur.totalPrice, 0);
 
+export const getCartItems = (store) => store.cart.cartItems;
+
+/*We can also pass parameters to perform calculation to our redux queries without exporting them as functions*/
+export const getCurrentQuantityById = (id) => (store) =>
+  store.cart.cartItems.find((item) => item.id === id)?.quantity ?? 0;
+
 // function getPosition() {
 //   return new Promise(function (resolve, reject) {
 //     navigator.geolocation.getCurrentPosition(resolve, reject);
