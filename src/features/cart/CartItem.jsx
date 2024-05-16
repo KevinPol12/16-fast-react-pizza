@@ -6,8 +6,7 @@ import DeleteItem from "./DeleteItem";
 import UpdateItemQuantity from "./UpdateItemQuantity";
 
 function CartItem({ item }) {
-  const { id, name, quantity, totalPrice } = item;
-  const dispatch = useDispatch();
+  const { pizzaId, name, quantity, totalPrice } = item;
 
   return (
     <li className="py-3 sm:flex sm:items-center sm:justify-between">
@@ -17,8 +16,8 @@ function CartItem({ item }) {
       <div className="flex items-center justify-between sm:gap-6">
         <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
         <div className="flex gap-2">
-          <UpdateItemQuantity id={id} currentQuantity={quantity} />
-          <DeleteItem id={id} />
+          <UpdateItemQuantity pizzaId={pizzaId} currentQuantity={quantity} />
+          <DeleteItem pizzaId={pizzaId} />
         </div>
       </div>
     </li>

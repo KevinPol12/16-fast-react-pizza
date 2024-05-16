@@ -7,6 +7,7 @@ function Menu() {
   /*With useLoaderData we will get access to the data we passed within the route
   as the loader.*/
   const menu = useLoaderData();
+
   return (
     <ul className="divide-y-2 divide-stone-200 px-2">
       {menu.map((pizza) => (

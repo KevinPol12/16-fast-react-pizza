@@ -9,36 +9,15 @@ import {
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../ui/Button";
 import { useSelector } from "react-redux";
+import { clearCart, getCartItems } from "../cart/cartSlice";
+import EmptyCart from "../cart/EmptyCart";
+import store from "../../store";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
     str,
   );
-
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
 
 function CreateOrder() {
   const navigation = useNavigation();
@@ -51,8 +30,10 @@ function CreateOrder() {
   const formError = useActionData();
 
   // const [withPriority, setWithPriority] = useState(false);
-  const cart = fakeCart;
   const userName = useSelector((store) => store.user.user);
+  const cart = useSelector(getCartItems);
+
+  if (!cart.length) return <EmptyCart />;
 
   return (
     <div className="px-4 py-6">
@@ -128,6 +109,7 @@ export async function action({ request }) {
     ...data,
     priority: data.priority === "on",
     cart: JSON.parse(data.cart),
+    position: "",
   };
   //Step 1/2 An action returning an error to the route wired component
   /*Before creating an order, we may want to validate some information the user is
@@ -141,11 +123,14 @@ export async function action({ request }) {
   }
   if (Object.keys(errors).length > 0) return errors;
 
+  console.log(order);
   //If everything is okay, create new order and redirect
-  // const newOrder = await createOrder(order);
+  const newOrder = await createOrder(order);
 
-  // return redirect(`/order/${newOrder.id}`);
-  return null;
+  /*We should avoid doing this, but we could import the store.js directly to where is needed to perform a change of state outside of a component such as in this case within an form action.  */
+  store.dispatch(clearCart());
+
+  return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;

@@ -2,10 +2,10 @@ import { useDispatch } from "react-redux";
 import Button from "../../ui/Button";
 import { deleteItem } from "./cartSlice";
 
-function DeleteItem({ id }) {
+function DeleteItem({ pizzaId }) {
   const dispatch = useDispatch();
   return (
-    <Button type="small" onClick={() => dispatch(deleteItem(id))}>
+    <Button type="small" onClick={() => dispatch(deleteItem(pizzaId))}>
       Delete
     </Button>
   );

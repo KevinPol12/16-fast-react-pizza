@@ -1,16 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  // cartItems: [],
-  cartItems: [
-    {
-      id: 12,
-      name: "Mediterranean",
-      quantity: 2,
-      unitPrice: 16,
-      totalPrice: 32,
-    },
-  ],
+  cartItems: [],
 };
 
 const cartSlice = createSlice({
@@ -22,19 +13,23 @@ const cartSlice = createSlice({
       state.cartItems.push(action.payload);
     },
     deleteItem(state, action) {
-      //payload = id
+      //payload = pizzaId
       state.cartItems = state.cartItems.filter(
-        (item) => item.id !== action.payload,
+        (item) => item.pizzaId !== action.payload,
       );
     },
     increaseItemQuantity(state, action) {
-      const item = state.cartItems.find((item) => item.id === action.payload);
-      if (item.quantity >= 4) return;
+      const item = state.cartItems.find(
+        (item) => item.pizzaId === action.payload,
+      );
+      if (item?.quantity >= 4) return;
       item.quantity++;
       item.totalPrice = item.quantity * item.unitPrice;
     },
     decreaseItemQuantity(state, action) {
-      const item = state.cartItems.find((item) => item.id === action.payload);
+      const item = state.cartItems.find(
+        (item) => item.pizzaId === action.payload,
+      );
       item.quantity--;
       item.totalPrice = item.quantity * item.unitPrice;
       /*Within the action or reducer, we can call another defined action or reducer in the slice for reusing the code with the slice.caseReducers.action(state,action)*/
@@ -58,16 +53,16 @@ export default cartSlice.reducer;
 
 /*We export this calculations on redux state to centralize logic, is this way we can just reuse it anywhere else in the application. The naming convention is to use "get".*/
 export const getTotalCartQuantity = (store) =>
-  store.cart.cartItems.reduce((acc, cur) => acc + cur.quantity, 0);
+  store.cart.cartItems.reduce((acc, cur) => acc + cur?.quantity, 0);
 
 export const getTotalCartPrice = (store) =>
-  store.cart.cartItems.reduce((acc, cur) => acc + cur.totalPrice, 0);
+  store.cart.cartItems.reduce((acc, cur) => acc + cur?.totalPrice, 0);
 
 export const getCartItems = (store) => store.cart.cartItems;
 
 /*We can also pass parameters to perform calculation to our redux queries without exporting them as functions*/
-export const getCurrentQuantityById = (id) => (store) =>
-  store.cart.cartItems.find((item) => item.id === id)?.quantity ?? 0;
+export const getCurrentQuantityById = (pizzaId) => (store) =>
+  store.cart.cartItems.find((item) => item.pizzaId === pizzaId)?.quantity ?? 0;
 
 // function getPosition() {
 //   return new Promise(function (resolve, reject) {

@@ -10,9 +10,9 @@ export async function getMenu() {
   return data;
 }
 
-export async function getOrder(id) {
-  const res = await fetch(`${API_URL}/order/${id}`);
-  if (!res.ok) throw Error(`Couldn't find order #${id}`);
+export async function getOrder(pizzaId) {
+  const res = await fetch(`${API_URL}/order/${pizzaId}`);
+  if (!res.ok) throw Error(`Couldn't find order #${pizzaId}`);
 
   const { data } = await res.json();
   return data;
@@ -36,9 +36,9 @@ export async function createOrder(newOrder) {
   }
 }
 
-export async function updateOrder(id, updateObj) {
+export async function updateOrder(pizzaId, updateObj) {
   try {
-    const res = await fetch(`${API_URL}/order/${id}`, {
+    const res = await fetch(`${API_URL}/order/${pizzaId}`, {
       method: "PATCH",
       body: JSON.stringify(updateObj),
       headers: {

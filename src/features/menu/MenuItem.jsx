@@ -6,14 +6,22 @@ import DeleteItem from "../cart/DeleteItem";
 import UpdateItemQuantity from "../cart/UpdateItemQuantity";
 
 function MenuItem({ pizza }) {
-  const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
-  const currentQuantity = useSelector(getCurrentQuantityById(id));
+  const {
+    id: pizzaId,
+    name,
+    unitPrice,
+    ingredients,
+    soldOut,
+    imageUrl,
+  } = pizza;
+
+  const currentQuantity = useSelector(getCurrentQuantityById(pizzaId));
   const isInCart = currentQuantity > 0;
   const dispatch = useDispatch();
 
   function handleAddToCart() {
     const newItem = {
-      id,
+      pizzaId,
       name,
       quantity: 1,
       unitPrice,
@@ -41,10 +49,13 @@ function MenuItem({ pizza }) {
             <p className="text-sm uppercase text-stone-500">Sold out</p>
           )}
           {isInCart && (
-            <div className="flex gap-3">
-              <UpdateItemQuantity id={id} currentQuantity={currentQuantity} />
+            <div className="flex items-center gap-3 sm:gap-8">
+              <UpdateItemQuantity
+                pizzaId={pizzaId}
+                currentQuantity={currentQuantity}
+              />
 
-              <DeleteItem id={id} />
+              <DeleteItem pizzaId={pizzaId} />
             </div>
           )}
           {!soldOut && !isInCart && (
