@@ -1,5 +1,5 @@
 // Test ID: IIDSAT
-// Test ID: CQE92U
+// Test ID: CQE92U -- E9IFPB
 
 import OrderItem from "./OrderItem";
 import { useFetcher, useLoaderData } from "react-router-dom";
@@ -10,8 +10,12 @@ import {
   formatDate,
 } from "../../utils/helpers";
 import { useEffect } from "react";
+import UpdateOrder from "./UpdateOrder";
 
 function Order() {
+  const order = useLoaderData();
+
+  const fetcher = useFetcher();
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const {
     id,
@@ -21,15 +25,13 @@ function Order() {
     orderPrice,
     estimatedDelivery,
     cart,
-  } = useLoaderData();
-  const deliveryIn = calcMinutesLeft(estimatedDelivery);
+  } = order;
 
-  const fetcher = useFetcher();
+  const deliveryIn = calcMinutesLeft(estimatedDelivery);
 
   useEffect(
     function () {
       if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
-      console.log(fetcher.data);
     },
     [fetcher],
   );
@@ -85,6 +87,7 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+      {!priority && <UpdateOrder order={order} />}
     </div>
   );
 }

@@ -43,7 +43,7 @@ function CreateOrder() {
   const cart = useSelector(getCartItems);
   const totalCartPrice = useSelector(getTotalCartPrice);
   const priorityPrice = totalCartPrice * withPriority ? 0.2 : 0;
-  const totalPrice = totalCartPrice + priorityPrice;
+  const totalPrice = totalCartPrice + totalCartPrice * priorityPrice;
   const dispatch = useDispatch();
   if (!cart.length) return <EmptyCart />;
 
